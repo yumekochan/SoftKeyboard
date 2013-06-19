@@ -30,6 +30,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,9 +82,11 @@ public class SoftKeyboard extends InputMethodService
      * to super class.
      */
     @Override public void onCreate() {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         mWordSeparators = getResources().getString(R.string.word_separators);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
     
     /**
@@ -91,6 +94,7 @@ public class SoftKeyboard extends InputMethodService
      * is called after creation and any configuration change.
      */
     @Override public void onInitializeInterface() {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         if (mQwertyKeyboard != null) {
             // Configuration changes can happen after the keyboard gets recreated,
             // so we need to be able to re-build the keyboards if the available
@@ -102,6 +106,7 @@ public class SoftKeyboard extends InputMethodService
         mQwertyKeyboard = new LatinKeyboard(this, R.xml.qwerty);
         mSymbolsKeyboard = new LatinKeyboard(this, R.xml.symbols);
         mSymbolsShiftedKeyboard = new LatinKeyboard(this, R.xml.symbols_shift);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
     
     /**
@@ -111,10 +116,12 @@ public class SoftKeyboard extends InputMethodService
      * a configuration change.
      */
     @Override public View onCreateInputView() {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(
                 R.layout.input, null);
         mInputView.setOnKeyboardActionListener(this);
         mInputView.setKeyboard(mQwertyKeyboard);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
         return mInputView;
     }
 
@@ -123,8 +130,10 @@ public class SoftKeyboard extends InputMethodService
      * be generated, like {@link #onCreateInputView}.
      */
     @Override public View onCreateCandidatesView() {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
         return mCandidateView;
     }
 
@@ -135,6 +144,7 @@ public class SoftKeyboard extends InputMethodService
      * about the target of our edits.
      */
     @Override public void onStartInput(EditorInfo attribute, boolean restarting) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         super.onStartInput(attribute, restarting);
         
         // Reset our state.  We want to do this even if restarting, because
@@ -219,6 +229,7 @@ public class SoftKeyboard extends InputMethodService
         // Update the label on the enter key, depending on what the application
         // says it will do.
         mCurKeyboard.setImeOptions(getResources(), attribute.imeOptions);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
 
     /**
@@ -226,6 +237,7 @@ public class SoftKeyboard extends InputMethodService
      * this to reset our state.
      */
     @Override public void onFinishInput() {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         super.onFinishInput();
         
         // Clear current composing text and candidates.
@@ -242,20 +254,25 @@ public class SoftKeyboard extends InputMethodService
         if (mInputView != null) {
             mInputView.closing();
         }
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
     
     @Override public void onStartInputView(EditorInfo attribute, boolean restarting) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         super.onStartInputView(attribute, restarting);
         // Apply the selected keyboard to the input view.
         mInputView.setKeyboard(mCurKeyboard);
         mInputView.closing();
         final InputMethodSubtype subtype = mInputMethodManager.getCurrentInputMethodSubtype();
         mInputView.setSubtypeOnSpaceKey(subtype);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
 
     @Override
     public void onCurrentInputMethodSubtypeChanged(InputMethodSubtype subtype) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         mInputView.setSubtypeOnSpaceKey(subtype);
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
 
     /**
@@ -264,6 +281,7 @@ public class SoftKeyboard extends InputMethodService
     @Override public void onUpdateSelection(int oldSelStart, int oldSelEnd,
             int newSelStart, int newSelEnd,
             int candidatesStart, int candidatesEnd) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
                 candidatesStart, candidatesEnd);
         
@@ -278,6 +296,7 @@ public class SoftKeyboard extends InputMethodService
                 ic.finishComposingText();
             }
         }
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
 
     /**
@@ -287,6 +306,7 @@ public class SoftKeyboard extends InputMethodService
      * in that situation.
      */
     @Override public void onDisplayCompletions(CompletionInfo[] completions) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         if (mCompletionOn) {
             mCompletions = completions;
             if (completions == null) {
@@ -301,6 +321,7 @@ public class SoftKeyboard extends InputMethodService
             }
             setSuggestions(stringList, true, true);
         }
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
     
     /**
@@ -309,6 +330,7 @@ public class SoftKeyboard extends InputMethodService
      * PROCESS_HARD_KEYS option.
      */
     private boolean translateKeyDown(int keyCode, KeyEvent event) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         mMetaState = MetaKeyKeyListener.handleKeyDown(mMetaState,
                 keyCode, event);
         int c = event.getUnicodeChar(MetaKeyKeyListener.getMetaState(mMetaState));
@@ -317,7 +339,6 @@ public class SoftKeyboard extends InputMethodService
         if (c == 0 || ic == null) {
             return false;
         }
-        
         boolean dead = false;
 
         if ((c & KeyCharacterMap.COMBINING_ACCENT) != 0) {
@@ -336,7 +357,7 @@ public class SoftKeyboard extends InputMethodService
         }
         
         onKey(c, null);
-        
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
         return true;
     }
     
@@ -346,6 +367,7 @@ public class SoftKeyboard extends InputMethodService
      * continue to the app.
      */
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getLineNumber());
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 // The InputMethodService already takes care of the back
@@ -403,7 +425,7 @@ public class SoftKeyboard extends InputMethodService
                     }
                 }
         }
-        
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
         return super.onKeyDown(keyCode, event);
     }
 
@@ -413,6 +435,7 @@ public class SoftKeyboard extends InputMethodService
      * continue to the app.
      */
     @Override public boolean onKeyUp(int keyCode, KeyEvent event) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         // If we want to do transformations on text being entered with a hard
         // keyboard, we need to process the up events to update the meta key
         // state we are tracking.
@@ -422,7 +445,7 @@ public class SoftKeyboard extends InputMethodService
                         keyCode, event);
             }
         }
-        
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+ "end");
         return super.onKeyUp(keyCode, event);
     }
 
@@ -430,11 +453,13 @@ public class SoftKeyboard extends InputMethodService
      * Helper function to commit any text being composed in to the editor.
      */
     private void commitTyped(InputConnection inputConnection) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         if (mComposing.length() > 0) {
             inputConnection.commitText(mComposing, mComposing.length());
             mComposing.setLength(0);
             updateCandidates();
         }
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
 
     /**
@@ -442,6 +467,7 @@ public class SoftKeyboard extends InputMethodService
      * editor state.
      */
     private void updateShiftKeyState(EditorInfo attr) {
+    	System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName());
         if (attr != null 
                 && mInputView != null && mQwertyKeyboard == mInputView.getKeyboard()) {
             int caps = 0;
@@ -451,6 +477,7 @@ public class SoftKeyboard extends InputMethodService
             }
             mInputView.setShifted(mCapsLock || caps != 0);
         }
+        System.out.println(">>>>>>>"+new Throwable().getStackTrace()[0].getMethodName()+","+new Throwable().getStackTrace()[1].getMethodName()+" end");
     }
     
     /**
